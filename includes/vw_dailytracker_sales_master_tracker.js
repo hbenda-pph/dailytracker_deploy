@@ -1,10 +1,11 @@
 // definitions/views/vw_dailytracker_sales_master_tracker.js
-// Recibe: companyId, projectId (destino), rawDataset (servicetitan_xxx)
 module.exports = (companyId, projectId, rawDataset) =>
-  publish("vw_dailytracker_sales_master_tracker")
+  publish({
+    database: projectId,
+    schema: "dashboards",
+    name: "vw_dailytracker_sales_master_tracker"
+  })
     .type("view")
-    .database(projectId)   // proyecto donde se crea la vista (company_project_id)
-    .schema("dashboards")  // dataset destino fijo
     .description("View DAILYTRACKER SALES MASTER TRACKER")
     .tags(["dashboards", "dailytracker", "vw_dailytracker_sales_master_tracker"])
     .query(`
