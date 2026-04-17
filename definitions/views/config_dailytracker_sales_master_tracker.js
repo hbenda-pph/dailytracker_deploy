@@ -1,4 +1,4 @@
-const vw_dailytracker_sales_master_tracker = require("./vw_dailytracker_sales_master_tracker.js");
+const vw_dailytracker_sales_master_tracker = require("../../includes/vw_dailytracker_sales_master_tracker.js");
 const companies = [
     { 'id': 1,  'project_id': 'shape-mhs-1',    'raw_dataset': 'servicetitan_shape_mhs_1'    },
     { 'id': 2,  'project_id': 'shape-chc-2',    'raw_dataset': 'servicetitan_shape_chc_2'    },
