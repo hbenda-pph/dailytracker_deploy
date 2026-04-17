@@ -178,7 +178,7 @@ module.exports = (companyId, projectId, rawDataset) =>
            GROUP BY                                                                                   returns.job_id
          )                                                                                            re
       ON re.job_id                                                                                    = j.id
-    LEFT JOIN \`${projectId}.silver.vw_pulse_wip_appointments\`                                       ap
+    LEFT JOIN \`${projectId}.dashboards.vw_pulse_wip_appointments\`                                       ap
       ON ap.job_id                                                                                    = j.id
    WHERE (EXTRACT(YEAR FROM \`pph-central.settings.fn_convert_utc_localtz\`(ap.first_appointment,${companyId})) >= 2025
           OR
