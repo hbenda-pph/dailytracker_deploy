@@ -1,13 +1,12 @@
 // definitions/views/vw_dailytracker_sales_master_tracker.js
 module.exports = (companyId, projectId, rawDataset) =>
-  publish({
+  publish("vw_dailytracker_sales_master_tracker", {
+    type: "view",
     database: projectId,
     schema: "dashboards",
-    name: "vw_dailytracker_sales_master_tracker"
+    description: "View DAILYTRACKER SALES MASTER TRACKER",
+    tags: ["dashboards", "dailytracker", "vw_dailytracker_sales_master_tracker"]
   })
-    .type("view")
-    .description("View DAILYTRACKER SALES MASTER TRACKER")
-    .tags(["dashboards", "dailytracker", "vw_dailytracker_sales_master_tracker"])
     .query(`
   SELECT j.job_number                                                                                 AS \`Job #\`
        , TRIM(jt.name)                                                                               AS \`Job Type\`

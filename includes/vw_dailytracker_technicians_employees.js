@@ -1,13 +1,12 @@
 // definitions/views/vw_dailytracker_technicians_employees.js
 module.exports = (companyId, projectId, rawDataset) =>
-  publish({
+  publish("vw_dailytracker_technicians_employees", {
+    type: "view",
     database: projectId,
     schema: "dashboards",
-    name: "vw_dailytracker_technicians_employees"
+    description: "View DAILYTRACKER TECHNICIANS EMPLOYEES",
+    tags: ["dashboards", "dailytracker", "vw_dailytracker_technicians_employees"]
   })
-    .type("view")
-    .description("View DAILYTRACKER TECHNICIANS EMPLOYEES")
-    .tags(["dashboards", "dailytracker", "vw_dailytracker_technicians_employees"])
     .query(`
   SELECT 'Technician'        AS emp_type
         , id                 AS id
