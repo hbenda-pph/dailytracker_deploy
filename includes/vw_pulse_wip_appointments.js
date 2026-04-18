@@ -10,7 +10,7 @@ module.exports = (companyId, projectId, rawDataset) =>
     .query(`
   WITH total_appointments AS (
     SELECT job_id, start, status
-      FROM \`${projectId}.${rawDataset}.appointment\` 
+      FROM \`${projectId}.silver.vw_appointment\` 
      WHERE status NOT IN ('Canceled', 'Done')
   ), 
   past_appointments AS (
