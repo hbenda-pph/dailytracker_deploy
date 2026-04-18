@@ -122,7 +122,7 @@ module.exports = (companyId, projectId, rawDataset) =>
           SELECT aa.job_id                                                                            AS job_id
                , ARRAY_AGG(DISTINCT TRIM(IFNULL(t.name, '')))                                        AS assigned_technicians2
                , ARRAY_AGG(TRIM(IFNULL(t.name, '')) ORDER BY aa.assigned_on LIMIT 1)[SAFE_OFFSET(0)] AS primary_technician2
-            FROM \`${projectId}.${rawDataset}.appointment_assignment\`                                aa
+            FROM \`${projectId}.silver.vw_appointment_assignment\`                                aa
             LEFT JOIN \`${projectId}.dashboards.vw_dailytracker_technicians_employees\`                   t
               ON aa.technician_id                                                                     = t.id
            WHERE aa.active
