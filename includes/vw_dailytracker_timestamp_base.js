@@ -46,7 +46,7 @@ module.exports = (companyId, projectId, rawDataset) =>
     FROM all_timesheets ts
     LEFT JOIN \`${projectId}.dashboards.vw_dailytracker_technicians_employees\` emp 
       ON ts.emp_id = emp.id
-    LEFT JOIN \`${projectId}.${rawDataset}.timesheet_code\` tc
+    LEFT JOIN \`${projectId}.silver.vw_timesheet_code\` tc
       ON tc.id = ts.timesheet_code_id
    ORDER BY ts.source, emp.name
   `);
