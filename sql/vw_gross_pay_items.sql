@@ -1,0 +1,43 @@
+SELECT id
+      , activity
+     , activity_code
+     , activity_code_id
+     , amount
+     , amount_adjustment
+     , budget_code_id
+     , business_unit_name
+     , created_on AS `created_on`
+     , customer_id
+     , customer_name
+     , date
+     , employee_id
+     , employee_payroll_id
+     , employee_type
+     , COALESCE(SAFE.PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*SZ', SAFE_CAST(ended_on AS STRING)), SAFE_CAST(ended_on AS TIMESTAMP)) AS `ended_on`
+     , gross_pay_item_type
+     , invoice_id
+     , invoice_item_id
+     , invoice_number
+     , is_prevailing_wage_job
+     , job_id
+     , job_number
+     , job_type_name
+     , labor_type_code
+     , labor_type_id
+     , location_address
+     , location_id
+     , location_name
+     , location_zip
+     , memo
+     , modified_on
+     , paid_duration_hours
+     , paid_time_type
+     , payout_business_unit_name
+     , payroll_id
+     , project_id
+     , project_number
+     , source_entity_id
+     , COALESCE(SAFE.PARSE_TIMESTAMP('%Y-%m-%dT%H:%M:%E*SZ', SAFE_CAST(started_on AS STRING)), SAFE_CAST(started_on AS TIMESTAMP)) AS `started_on`
+     , tax_zone_name
+     , zone_name
+FROM `shape-mhs-1.bronze.gross_pay_items`
