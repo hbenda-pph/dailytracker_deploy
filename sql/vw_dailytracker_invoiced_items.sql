@@ -1,4 +1,4 @@
--- CREATE OR REPLACE VIEW `shape-mhs-1.silver.vw_dailytracker_invoiced_items`               AS 
+-- CREATE OR REPLACE VIEW `shape-mhs-1.dashboards.vw_dailytracker_invoiced_items`               AS 
 SELECT j.job_number                                                                         AS `Job #`
      , j.job_number                                                                         AS `Invoice #`
      , TRIM(jt.name)                                                                        AS `Job Type`

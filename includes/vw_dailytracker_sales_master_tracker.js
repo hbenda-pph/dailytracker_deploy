@@ -186,6 +186,5 @@ module.exports = (companyId, projectId, rawDataset) =>
           OR
           EXTRACT(YEAR FROM \`pph-central.settings.fn_convert_utc_localtz\`(ap.next_appointment,${companyId})) >= 2025
          )
-  --   AND j.id IN (500752358)
   ORDER BY ap.first_appointment
   `);
