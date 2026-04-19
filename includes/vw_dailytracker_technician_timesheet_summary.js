@@ -219,7 +219,7 @@ module.exports = (companyId, projectId, rawDataset) =>
   all_timesheet_codes AS (
     -- Get the full list of active codes categorized by type
     SELECT DISTINCT code, type
-      FROM \`${projectId}.${rawDataset}.timesheet_code\`
+      FROM \`${projectId}.silver.vw_timesheet_code\`
      WHERE active = TRUE
        AND UPPER(TRIM(type)) IN ('CLOCKINOUT', 'PAID', 'PAIDTIMEOFF', 'UNPAID')
   ),
