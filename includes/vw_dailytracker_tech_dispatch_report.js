@@ -35,7 +35,7 @@ SELECT TRIM(te.name)                                                            
 )
 SELECT name                                                                                                       AS \`Name\`
      , activity                                                                                                   AS \`Timesheet Activity\`
-     , DATE(\`pph-central.settings.fn_univesalts_localtz\`(\`date\`,${companyId}))                                               AS \`Timesheet Activity Date\`          
+     , DATE(\`pph-central.settings.fn_univesalts_localtz\`(started_on,${companyId}))                                               AS \`Timesheet Activity Date\`          
      , job_number                                                                                                 AS \`Job Number\`
      , TIME(\`pph-central.settings.fn_univesalts_localtz\`(started_on,${companyId})) AS \`Start Time\`
      , CASE 
