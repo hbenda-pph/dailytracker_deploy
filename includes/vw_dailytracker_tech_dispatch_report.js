@@ -35,14 +35,14 @@ SELECT TRIM(te.name)                                                            
 )
 SELECT name                                                                                                       AS \`Name\`
      , activity                                                                                                   AS \`Timesheet Activity\`
-     , DATE(\`pph-central.settings.fn_univesalts_localtz\`(started_on,${companyId}))                                               AS \`Timesheet Activity Date\`          
+     , DATE(\`pph-central.settings.fn_universalts_localtz\`(started_on,${companyId}))                                               AS \`Timesheet Activity Date\`          
      , job_number                                                                                                 AS \`Job Number\`
-     , TIME(\`pph-central.settings.fn_univesalts_localtz\`(started_on,${companyId})) AS \`Start Time\`
+     , TIME(\`pph-central.settings.fn_universalts_localtz\`(started_on,${companyId})) AS \`Start Time\`
      , CASE 
         WHEN paid_time_type = 'Regular' THEN ROUND(CAST(paid_duration_hours AS FLOAT64), 2)
         ELSE ROUND(0, 2)
        END                                                                                                        AS \`Regular Time\`
-     , TIME(\`pph-central.settings.fn_univesalts_localtz\`(ended_on,${companyId}))    AS \`End Time\`
+     , TIME(\`pph-central.settings.fn_universalts_localtz\`(ended_on,${companyId}))    AS \`End Time\`
      , invoice_id                                                                                                 AS \`Invoice Number\`
      , business_unit_name                                                                                         AS \`Business Unit\`
      , CASE
@@ -58,6 +58,6 @@ SELECT name                                                                     
         ELSE ROUND(0, 2)
        END                                                                                                        AS \`Overtime\`
  FROM dispatch_base
---WHERE EXTRACT(YEAR FROM \`pph-central.settings.fn_univesalts_localtz\`(\`date\`,${companyId}))                                   = 2026
+--WHERE EXTRACT(YEAR FROM \`pph-central.settings.fn_universalts_localtz\`(\`date\`,${companyId}))                                   = 2026
 ORDER BY \`Timesheet Activity Date\`,\`Name\`,\`Start Time\`
   `);
