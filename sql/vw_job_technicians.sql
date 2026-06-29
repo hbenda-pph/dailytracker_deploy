@@ -67,9 +67,9 @@ SELECT COALESCE(ts.job_id, ta.job_id)                                           
      , CASE
            WHEN ta.primary_technician2 IS NULL
                THEN ts.pt_split_desc             -- No appointment record → use split
-           WHEN ta.pt_appt_split >= ts.max_split
+           WHEN IFNULL(ta.pt_appt_split, 0) >= IFNULL(ts.max_split, 0)
                THEN TRIM(ta.primary_technician2) -- Appointment PT has the highest split → correct
-           ELSE TRIM(ts.pt_split_desc)           -- Another tech has higher split → override
+           ELSE COALESCE(TRIM(ts.pt_split_desc), TRIM(ta.primary_technician2))
        END                                                                                          AS primary_technician
   FROM ta
   FULL OUTER JOIN ts

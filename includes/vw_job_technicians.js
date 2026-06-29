@@ -8,8 +8,30 @@ module.exports = (companyId, projectId, rawDataset) =>
     tags: ["dashboards", "vw_job_technicians"]
   })
     .query(`
+-- ============================================================
+-- VIEW: vw_job_technicians
+-- PURPOSE: Canonical source of Assigned Technicians and Primary Technician per Job.
+--          Shared across DailyTracker, PULSE, LTM and future dashboards.
+--
+-- OUTPUTS (keyed by job_id):
+--   job_id               → join key for any dashboard query
+--   assigned_technicians → comma-separated list (from appointment_assignment)
+--   primary_technician   → resolved PT using CASE logic below
+--
+-- LOGIC:
+--   Primary source : appointment_assignment (ordered by assigned_on ASC)
+--   Override rule  : if PT from appointment has split < MAX split of job
+--                    → use tech with highest split from job_split (DESC)
+--   Tiebreaker     : when splits are equal, appointment order wins
+--
+-- STATUS: v1.0
+-- ============================================================
+
 WITH
 
+-- Step A: job_split enriched
+--   → PT with highest split (DESC), tiebreaker: created_on ASC
+--   → max_split of the job (to compare against appointment PT's split)
 ts AS (
     SELECT js.job_id                                                                                AS job_id
          , ARRAY_AGG(DISTINCT TRIM(IFNULL(t.name, '')))                                             AS assigned_technicians_split
@@ -23,6 +45,10 @@ ts AS (
      GROUP BY js.job_id
 ),
 
+-- Step B: appointment_assignment enriched
+--   → all assigned technicians (distinct)
+--   → PT = first technician by assigned_on ASC
+--   → pt_appt_split = split of that PT (to evaluate against max_split)
 ta AS (
     SELECT aa.job_id                                                                                AS job_id
          , ARRAY_AGG(DISTINCT TRIM(IFNULL(t.name, '')))                                             AS assigned_technicians2
@@ -43,13 +69,15 @@ ta AS (
 )
 
 SELECT COALESCE(ts.job_id, ta.job_id)                                                               AS job_id
+     -- Assigned Technicians: prefer appointment source (more complete), fallback to split
      , ARRAY_TO_STRING(COALESCE(ta.assigned_technicians2, ts.assigned_technicians_split, []), ', ') AS assigned_technicians
+     -- Primary Technician: CASE logic
      , CASE
            WHEN ta.primary_technician2 IS NULL
-               THEN ts.pt_split_desc
-           WHEN ta.pt_appt_split >= ts.max_split
-               THEN TRIM(ta.primary_technician2)
-           ELSE TRIM(ts.pt_split_desc)
+               THEN ts.pt_split_desc             -- No appointment record → use split
+           WHEN IFNULL(ta.pt_appt_split, 0) >= IFNULL(ts.max_split, 0)
+               THEN TRIM(ta.primary_technician2) -- Appointment PT has the highest split → correct
+           ELSE COALESCE(TRIM(ts.pt_split_desc), TRIM(ta.primary_technician2))
        END                                                                                          AS primary_technician
   FROM ta
   FULL OUTER JOIN ts
