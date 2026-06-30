@@ -1,4 +1,4 @@
--- CREATE OR REPLACE VIEW `shape-mhs-1.dashboards.vw_pulse_wip_appointments` AS
+-- CREATE OR REPLACE VIEW `shape-mhs-1.dashboards.vw_wip_appointments` AS
 WITH total_appointments AS (
   SELECT job_id, start, status
     FROM `shape-mhs-1.servicetitan_shape_mhs_1.appointment` 
